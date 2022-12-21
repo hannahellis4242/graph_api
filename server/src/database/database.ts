@@ -34,7 +34,8 @@ export const removeVertexById = async (id: ObjectId) => {
   const collection = db.collection(vertices);
   const result = await collection.deleteOne({ _id: id });
   client.close();
-  return result.acknowledged && result.deletedCount === 1;
+  const edgesResult = true; //removeEdgesOnVertex(id);
+  return result.acknowledged && result.deletedCount === 1 && edgesResult;
 };
 
 export const updateVertexById = async <T>(id: ObjectId, data: T) => {
@@ -53,11 +54,55 @@ export const addEdge = async <T>(
   source: ObjectId,
   target: ObjectId,
   value: T
-) => {
+): Promise<ObjectId> => {
   await client.connect();
   const db = client.db(dbName);
   const collection = db.collection(edges);
   const result = await collection.insertOne({ source, target, value });
   client.close();
   return result.insertedId;
+};
+
+export const outEdges = async (vertex: ObjectId) => {
+  await client.connect();
+  const db = client.db(dbName);
+  const collection = db.collection(edges);
+  const results = await collection.find({ source: vertex }).toArray();
+  client.close();
+  return results;
+};
+
+export const inEdges = async (vertex: ObjectId) => {
+  await client.connect();
+  const db = client.db(dbName);
+  const collection = db.collection(edges);
+  const results = await collection.find({ target: vertex }).toArray();
+  client.close();
+  return results;
+};
+
+const removeEdge = async (edgeId: ObjectId) => {
+  await client.connect();
+  const db = client.db(dbName);
+  const collection = db.collection(edges);
+  const results = await collection.deleteOne({ _id: edgeId });
+  client.close();
+  return results.acknowledged && results.deletedCount === 1;
+};
+
+const removeEdgesOnVertex = async (vertexId: ObjectId) => {
+  console.log("removing edges for", vertexId);
+  const x = await inEdges(vertexId);
+  const y = await inEdges(vertexId);
+  const xs = x.concat(y);
+  console.log("xs :", xs);
+  const edgeIds = Array.from(new Set(xs.flatMap((x) => x).map(({ id }) => id)));
+  console.log("edgeIds :", edgeIds);
+  if (edgeIds.length === 0) {
+    return true;
+  }
+  const tasks = edgeIds.map(removeEdge);
+  console.log("tasks length :", tasks.length);
+  const done = await Promise.all(tasks);
+  return done.every((x) => x);
 };

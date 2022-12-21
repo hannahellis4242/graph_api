@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { addEdge } from "../database/database";
 
-const edge = Router();
+const edgeRouter = Router();
 
-edge.post("/", (req, res) => {
+edgeRouter.post("/", async (req, res) => {
   const { source, target, value } = req.body;
   if (!(source && target)) {
     res.status(400).json({
@@ -13,8 +13,8 @@ edge.post("/", (req, res) => {
       },
     });
   }
-  const edge = addEdge(source, target, value);
-  res.json({ edge });
+  const id = await addEdge(source, target, value);
+  res.json({ edge: id });
 });
 
-export default edge;
+export default edgeRouter;

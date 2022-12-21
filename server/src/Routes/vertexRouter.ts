@@ -7,14 +7,14 @@ import {
   updateVertexById,
 } from "../database/database";
 
-const vertex = Router();
+const vertexRouter = Router();
 
-vertex.post("/", async (req, res) => {
+vertexRouter.post("/", async (req, res) => {
   const id = await addVertex(req.body);
   res.json({ vertex: id });
 });
 
-vertex.get("/", async (req, res) => {
+vertexRouter.get("/", async (req, res) => {
   const { id } = req.query;
   if (!id) {
     res.status(400).json({ usage: { url: "/vertex?id=<vertex>" } });
@@ -27,7 +27,7 @@ vertex.get("/", async (req, res) => {
   res.json(result);
 });
 
-vertex.patch("/", async (req, res) => {
+vertexRouter.patch("/", async (req, res) => {
   const { id } = req.query;
   if (!id) {
     res.status(400).json({ usage: { url: "/vertex?id=<vertex>" } });
@@ -40,7 +40,7 @@ vertex.patch("/", async (req, res) => {
   res.json(result);
 });
 
-vertex.delete("/", async (req, res) => {
+vertexRouter.delete("/", async (req, res) => {
   const { id } = req.query;
   if (!id) {
     res.status(400).json({ usage: { url: "/vertex?id=<vertex>" } });
@@ -53,4 +53,4 @@ vertex.delete("/", async (req, res) => {
   res.sendStatus(200);
 });
 
-export default vertex;
+export default vertexRouter;
