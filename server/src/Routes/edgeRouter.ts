@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { ObjectId } from "mongodb";
 import { addEdge } from "../database/database";
 
 const edgeRouter = Router();
@@ -13,7 +14,7 @@ edgeRouter.post("/", async (req, res) => {
       },
     });
   }
-  const id = await addEdge(source, target, value);
+  const id = await addEdge(new ObjectId(source), new ObjectId(target), value);
   res.json({ edge: id });
 });
 

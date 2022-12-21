@@ -6,6 +6,7 @@ import {
   removeVertexById,
   updateVertexById,
 } from "../database/database";
+import vertexEdgeRouter from "./vertexEdgeRouter";
 
 const vertexRouter = Router();
 
@@ -52,5 +53,7 @@ vertexRouter.delete("/", async (req, res) => {
   }
   res.sendStatus(200);
 });
+
+vertexRouter.use("/edges", vertexEdgeRouter);
 
 export default vertexRouter;
