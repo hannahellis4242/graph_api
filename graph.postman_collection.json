@@ -1,0 +1,529 @@
+{
+	"info": {
+		"_postman_id": "90f35be1-2cd4-4bcf-a551-76604296a03f",
+		"name": "graph",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Vertex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status ok\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"check vertex value\",()=>{",
+							"    const respose = pm.response.json();",
+							"    pm.expect(respose).haveOwnProperty(\"vertex\");",
+							"    const {vertex} = respose;",
+							"    pm.collectionVariables.set(\"id\", vertex);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stuff\":\"some data\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/vertex",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Vertex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"    const respose = pm.response.json();",
+							"    pm.expect(respose).haveOwnProperty(\"_id\");",
+							"    const {_id} = respose;",
+							"    const id = pm.collectionVariables.get(\"id\");",
+							"    pm.expect(_id).to.eq(id);",
+							"    pm.expect(respose).haveOwnProperty(\"value\");",
+							"    const {value} = respose;",
+							"    pm.expect(value).haveOwnProperty(\"stuff\");",
+							"    const {stuff} = value;",
+							"    pm.expect(stuff).to.eq(\"some data\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/vertex?id={{id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modify Vertex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"text\":\"Hello World\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/vertex?id={{id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Vertex After Modify",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"    const respose = pm.response.json();",
+							"    pm.expect(respose).haveOwnProperty(\"_id\");",
+							"    const {_id} = respose;",
+							"    const id = pm.collectionVariables.get(\"id\");",
+							"    pm.expect(_id).to.eq(id);",
+							"    pm.expect(respose).haveOwnProperty(\"value\");",
+							"    const {value} = respose;",
+							"    pm.expect(value).haveOwnProperty(\"text\");",
+							"    const {text} = value;",
+							"    pm.expect(text).to.eq(\"Hello World\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/vertex?id={{id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove vertex",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/vertex?id={{id}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add vertex 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status ok\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"check vertex value\",()=>{",
+							"    const respose = pm.response.json();",
+							"    pm.expect(respose).haveOwnProperty(\"vertex\");",
+							"    const {vertex} = respose;",
+							"    pm.collectionVariables.set(\"u\", vertex);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stuff\":\"some data\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/vertex",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add vertex 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status ok\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"check vertex value\",()=>{",
+							"    const respose = pm.response.json();",
+							"    pm.expect(respose).haveOwnProperty(\"vertex\");",
+							"    const {vertex} = respose;",
+							"    pm.collectionVariables.set(\"v\", vertex);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"stuff\":\"some data\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/vertex",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add an edge between vertex 1 and vertex 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status ok\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"check edge value\",()=>{",
+							"    const respose = pm.response.json();",
+							"    pm.expect(respose).haveOwnProperty(\"edge\");",
+							"    const {edge} = respose;",
+							"    pm.collectionVariables.set(\"edge_id\", edge);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"source\": \"{{u}}\",\n    \"target\": \"{{v}}\",\n    \"value\": {\n        \"text\": \"Hello\",\n        \"num\": 4242\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3001/edge",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"edge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find all in edges for vertex 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status ok\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"check result value\",()=>{",
+							"    const respose = pm.response.json();",
+							"    pm.expect(respose).haveOwnProperty(\"edges\");",
+							"    const {edges} = respose;",
+							"    pm.expect(edges).lengthOf(1);",
+							"    const edge_id = pm.collectionVariables.get(\"edge_id\");",
+							"    pm.expect(edges[0]._id).to.eq(edge_id);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/vertex/edges/in?id={{v}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex",
+						"edges",
+						"in"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{v}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove vertex 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/vertex?id={{u}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{u}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove vertex 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"check\",()=>{",
+							"    pm.response.to.have.status(200);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3001/vertex?id={{v}}",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"vertex"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{v}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "u",
+			"value": ""
+		},
+		{
+			"key": "v",
+			"value": ""
+		},
+		{
+			"key": "edge_id",
+			"value": ""
+		}
+	]
+}
